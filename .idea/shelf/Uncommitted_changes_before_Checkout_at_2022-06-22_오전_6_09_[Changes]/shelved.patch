@@ -1,0 +1,58 @@
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n\tid 'org.springframework.boot' version '2.7.0'\r\n\tid 'io.spring.dependency-management' version '1.0.11.RELEASE'\r\n\tid 'java'\r\n}\r\n\r\ngroup = 'com.alevel'\r\nversion = '0.0.1-SNAPSHOT'\r\nsourceCompatibility = '11'\r\n\r\nconfigurations {\r\n\tcompileOnly {\r\n\t\textendsFrom annotationProcessor\r\n\t}\r\n}\r\n\r\nrepositories {\r\n\tmavenCentral()\r\n}\r\n\r\ndependencies {\r\n\timplementation 'org.springframework.boot:spring-boot-starter-data-jpa'\r\n\timplementation 'org.springframework.boot:spring-boot-starter-security'\r\n\timplementation 'org.springframework.boot:spring-boot-starter-thymeleaf'\r\n\timplementation 'org.springframework.boot:spring-boot-starter-web'\r\n\timplementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'\r\n\tcompileOnly 'org.projectlombok:lombok'\r\n\tannotationProcessor 'org.projectlombok:lombok'\r\n\ttestImplementation 'org.springframework.boot:spring-boot-starter-test'\r\n\ttestImplementation 'org.springframework.security:spring-security-test'\r\n}\r\n\r\ntasks.named('test') {\r\n\tuseJUnitPlatform()\r\n}\r\n
+===================================================================
+diff --git a/build.gradle b/build.gradle
+--- a/build.gradle	
++++ b/build.gradle	
+@@ -26,6 +26,7 @@
+ 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+ 	compileOnly 'org.projectlombok:lombok'
+ 	annotationProcessor 'org.projectlombok:lombok'
++	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+ 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+ 	testImplementation 'org.springframework.security:spring-security-test'
+ }
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>HELP.md\r\n.DS_Store\r\n.gradle\r\nbuild/\r\n!gradle/wrapper/gradle-wrapper.jar\r\n!**/src/main/**/build/\r\n!**/src/test/**/build/\r\n\r\n### STS ###\r\n.apt_generated\r\n.classpath\r\n.factorypath\r\n.project\r\n.settings\r\n.springBeans\r\n.sts4-cache\r\nbin/\r\n!**/src/main/**/bin/\r\n!**/src/test/**/bin/\r\n\r\n### IntelliJ IDEA ###\r\n.idea\r\n*.iws\r\n*.iml\r\n*.ipr\r\nout/\r\n!**/src/main/**/out/\r\n!**/src/test/**/out/\r\n\r\n### NetBeans ###\r\n/nbproject/private/\r\n/nbbuild/\r\n/dist/\r\n/nbdist/\r\n/.nb-gradle/\r\n\r\n### VS Code ###\r\n.vscode/\r\n\r\n
+===================================================================
+diff --git a/.gitignore b/.gitignore
+--- a/.gitignore	
++++ b/.gitignore	
+@@ -6,6 +6,8 @@
+ !**/src/main/**/build/
+ !**/src/test/**/build/
+ 
++application-oauth.properties
++
+ ### STS ###
+ .apt_generated
+ .classpath
+Index: src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\r\n
+===================================================================
+diff --git a/src/main/resources/application.properties b/src/main/resources/application.properties
+--- a/src/main/resources/application.properties	
++++ b/src/main/resources/application.properties	
+@@ -1,1 +1,16 @@
+ 
++server.port=8080
++
++spring.profiles.include=oauth
++
++spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
++spring.datasource.username='username' // ?????? ??? ??
++spring.datasource.password='password' // ?????? ??? ????
++spring.datasource.url=jdbc:mysql://localhost:3306/instargram
++
++# create, update, none, create-drop, validate,
++spring.jpa.hibernate.ddl-auto=create // ???? create? ??
++
++spring.security.user.name=root
++spring.security.user.password=root
++spring.security.user.roles=ADMIN
