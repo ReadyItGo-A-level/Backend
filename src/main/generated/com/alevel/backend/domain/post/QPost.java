@@ -5,7 +5,7 @@ import static com.querydsl.core.types.PathMetadataFactory.*;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
-import javax.annotation.processing.Generated;
+import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathInits;
 
@@ -22,6 +22,8 @@ public class QPost extends EntityPathBase<Post> {
 
     public static final QPost post = new QPost("post");
 
+    public final com.alevel.backend.domain.QBaseTimeEntity _super = new com.alevel.backend.domain.QBaseTimeEntity(this);
+
     public final StringPath alcoholName = createString("alcoholName");
 
     public final StringPath alcoholType = createString("alcoholType");
@@ -32,6 +34,9 @@ public class QPost extends EntityPathBase<Post> {
 
     public final StringPath content = createString("content");
 
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
+
     public final StringPath flavor = createString("flavor");
 
     public final NumberPath<Long> hit = createNumber("hit", Long.class);
@@ -39,6 +44,9 @@ public class QPost extends EntityPathBase<Post> {
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath image = createString("image");
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 
     public final StringPath price = createString("price");
 

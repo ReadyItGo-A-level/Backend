@@ -1,8 +1,10 @@
 package com.alevel.backend.domain.user;
 
 import com.alevel.backend.domain.BaseTimeEntity;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +15,7 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper=false)
 public class User extends BaseTimeEntity {
 
@@ -31,4 +34,11 @@ public class User extends BaseTimeEntity {
 
     private int status = 1;
 
+    @Builder
+    public User(String email, String password, String username, int status){
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.status = status;
+    }
 }

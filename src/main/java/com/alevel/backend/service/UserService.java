@@ -28,7 +28,8 @@ public class UserService {
 
     public DefaultResponse login(String email, String password) {
         Optional<User> user = userRepository.findByEmail(email);
-        if (user.isEmpty()) {
+        //if (user.isEmpty()) {
+        if (!user.isPresent()){ //자바8에서는 isEmpty 안지원,, 임시..
             return new DefaultResponse(StatusCode.NOT_FOUND, ResponseMessage.NOT_FOUND_USER, email);
         }
         if (user.get().getStatus()!=1) {

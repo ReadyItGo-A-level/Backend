@@ -4,7 +4,7 @@ import com.alevel.backend.domain.post.Post;
 import lombok.Getter;
 
 @Getter
-public class PostResponseDto {
+public class MypageWrittenPostResponseDto {
 
     private String title;
     private String content;
@@ -13,7 +13,7 @@ public class PostResponseDto {
     //댓글개수
     private Integer commentCount;
 
-    public PostResponseDto(Post entity){
+    public MypageWrittenPostResponseDto(Post entity){
         this.id= entity.getId();
         this.content=entity.getContent();
         this.title=entity.getTitle();
