@@ -5,10 +5,8 @@ import com.alevel.backend.controller.dto.CommentSaveDto;
 import com.alevel.backend.domain.response.ResultResponse;
 import com.alevel.backend.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CommentController {
@@ -25,6 +23,13 @@ public class CommentController {
         CommentSaveDto dto = new CommentSaveDto(id, requestDto.getUserid(),requestDto.getContent());
         commentService.saveComment(dto);
         return ResultResponse.success();
+    }
+
+    //댓글 삭제
+    @DeleteMapping(value="/posts/{id}/comment")
+    public ResponseEntity deleteComment(@PathVariable("id") Long id){
+        commentService.delete(id);
+        return ResponseEntity.ok(id);
     }
 
 

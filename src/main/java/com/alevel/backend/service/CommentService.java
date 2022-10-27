@@ -13,6 +13,8 @@ import com.alevel.backend.exception.ExceededNumberException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class CommentService {
     private final CommentRepository commentRepository;
@@ -37,5 +39,12 @@ public class CommentService {
         else{
             commentRepository.save(new Comment(user, post, dto.getContent()));
         }
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("존재하지 않는 댓글입니다. id=" + id));
+        commentRepository.delete(comment);
     }
 }
