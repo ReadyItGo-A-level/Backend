@@ -12,5 +12,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query(value="SELECT COUNT(*) FROM comment c WHERE c.user_id=user_id",nativeQuery = true)
     Integer myCommentCount(Long id);
+
+
 }
 

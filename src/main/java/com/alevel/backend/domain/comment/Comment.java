@@ -31,10 +31,10 @@ public class Comment extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-//    @Builder
-//    public Comment(User user, Post post,String content){
-//        this.user=user;
-//        this.post=post;
-//        this.content=content;
-//    }
+    @Builder
+    public Comment(User user, Post post,String content){
+        this.user=user;
+        this.post=post;
+        this.content=content;
+    }
 }
