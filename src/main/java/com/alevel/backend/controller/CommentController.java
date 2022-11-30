@@ -26,10 +26,10 @@ public class CommentController {
     }
 
     //댓글 삭제
-    @DeleteMapping(value="/posts/{id}/comment")
-    public ResponseEntity deleteComment(@PathVariable("id") Long id){
-        commentService.delete(id);
-        return ResponseEntity.ok(id);
+    @DeleteMapping(value="/posts/{post-id}/comment/{comment-id}")
+    public ResultResponse deleteComment(@PathVariable("post-id")Long PostId,@PathVariable("comment-id") Long CommentId){
+        commentService.delete(CommentId);
+        return ResultResponse.success();
     }
 
 
