@@ -7,6 +7,7 @@ import com.alevel.backend.domain.scrappost.ScrapPostRepository;
 import com.alevel.backend.domain.user.User;
 import com.alevel.backend.dto.*;
 import com.alevel.backend.exception.InvalidatePostException;
+import com.alevel.backend.exception.UnauthorizedAccessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -101,6 +102,29 @@ public class PostService {
     public List<PostDetailResponseDto> findPosts() {
         return postRepository.findByStatusTrue()
                 .stream().map(PostDetailResponseDto::new).collect(Collectors.toList());
+    }
+
+    public Long savePost(PostRequestDto dto, User user) {
+        return postRepository.save(dto.toEntity(user)).getId();
+    }
+
+    public Long updatePost(Long postId, PostRequestDto dto, Long userid) {
+        Post post = findById(postId);
+        if (!post.getUser().getId().equals(userid)) {
+            throw new UnauthorizedAccessException();
+        }
+
+        post.setTitle(dto.getTitle());
+        post.setContent(dto.getContent());
+        post.setImage(dto.getImage());
+        post.setAlcoholName(dto.getAlcoholName());
+        post.setAlcoholType(dto.getAlcoholType());
+        post.setFlavor(dto.getFlavor());
+        post.setVolume(dto.getVolume());
+        post.setPrice(dto.getPrice());
+        post.setBody(dto.getBody());
+        post.setSugar(dto.getSugar());
+        return postRepository.save(post).getId();
     }
 
     public Long deletePostById(Long id) {
