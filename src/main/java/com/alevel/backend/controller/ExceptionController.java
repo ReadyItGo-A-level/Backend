@@ -31,6 +31,13 @@ public class ExceptionController {
         return ResultResponse.fail(StatusCode.NOT_FOUND, ResponseMessage.WITHDRAWN_USER);
     }
 
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    private ResultResponse UnauthorizedAccessException(UnauthorizedAccessException e) {
+        log.info(e.getMessage());
+        e.printStackTrace();
+        return ResultResponse.fail(StatusCode.UNAUTHORIZED, ResponseMessage.UNAUTHORIZED_ACCESS);
+    }
+
     @ExceptionHandler(InvalidateTokenException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     private ResultResponse InvalidateTokenException(InvalidateTokenException e) {

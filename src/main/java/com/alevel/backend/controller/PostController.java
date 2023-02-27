@@ -5,6 +5,7 @@ import com.alevel.backend.domain.response.ResultResponse;
 import com.alevel.backend.domain.response.StatusCode;
 import com.alevel.backend.dto.MyPagePostResponseDto;
 import com.alevel.backend.dto.PostCommentsDetailResponseDto;
+import com.alevel.backend.dto.PostRequestDto;
 import com.alevel.backend.jwt.CustomUserDetails;
 import com.alevel.backend.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -54,10 +55,35 @@ public class PostController {
 
     /**
      *
+     * 게시글 등록
+     */
+    @PostMapping("/posts")
+    public ResultResponse savePost (
+            @RequestBody PostRequestDto dto,
+            @AuthenticationPrincipal CustomUserDetails user
+    ){
+        return ResultResponse.success(postService.savePost(dto, user.getUser()));
+    }
+
+    /**
+     *
+     * 게시글 수정
+     */
+    @PutMapping("/posts/{id}")
+    public ResultResponse updatePost (
+            @PathVariable Long id,
+            @RequestBody PostRequestDto dto,
+            @AuthenticationPrincipal CustomUserDetails user
+    ){
+        return ResultResponse.success(postService.updatePost(id, dto, user.getId()));
+    }
+
+    /**
+     *
      * 게시글 삭제
      * status 0: 삭제
      */
-    @PutMapping("/posts/{id}")
+    @DeleteMapping("/posts/{id}")
     public ResultResponse deletePostById (@PathVariable Long id){
         try {
             return ResultResponse.success(postService.deletePostById(id));
