@@ -14,7 +14,6 @@ public class PostRequestDto {
 
     private String title;
     private String content;
-    private String image;
     private String alcoholName;
     private String alcoholType;
 
@@ -28,7 +27,6 @@ public class PostRequestDto {
     public PostRequestDto(
             String title,
             String content,
-            String image,
             String alcoholName,
             String alcoholType,
             String flavor,
@@ -39,7 +37,6 @@ public class PostRequestDto {
     ) {
         this.title = title;
         this.content = content;
-        this.image = image;
         this.alcoholName = alcoholName;
         this.alcoholType = alcoholType;
         this.flavor = flavor;
@@ -49,12 +46,12 @@ public class PostRequestDto {
         this.sugar = sugar;
     }
 
-    public Post toEntity(User user) {
+    public Post toEntity(User user, String filePath) {
         return Post.builder()
                 .user(user)
                 .title(title)
                 .content(content)
-                .image(image)
+                .image(filePath)
                 .alcoholName(alcoholName)
                 .alcoholType(alcoholType)
                 .flavor(flavor)

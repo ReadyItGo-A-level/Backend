@@ -11,6 +11,9 @@ import com.alevel.backend.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 
 @RequiredArgsConstructor
@@ -59,10 +62,15 @@ public class PostController {
      */
     @PostMapping("/posts")
     public ResultResponse savePost (
-            @RequestBody PostRequestDto dto,
+            @RequestPart PostRequestDto dto,
+            @RequestPart MultipartFile file,
             @AuthenticationPrincipal CustomUserDetails user
     ){
-        return ResultResponse.success(postService.savePost(dto, user.getUser()));
+        try {
+            return ResultResponse.success(postService.savePost(dto, file, user.getUser()));
+        } catch (Exception e) {
+            return ResultResponse.fail(StatusCode.INTERNAL_SERVER_ERROR, ResponseMessage.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -72,10 +80,15 @@ public class PostController {
     @PutMapping("/posts/{id}")
     public ResultResponse updatePost (
             @PathVariable Long id,
-            @RequestBody PostRequestDto dto,
+            @RequestPart PostRequestDto dto,
+            @RequestPart MultipartFile file,
             @AuthenticationPrincipal CustomUserDetails user
     ){
-        return ResultResponse.success(postService.updatePost(id, dto, user.getId()));
+        try {
+            return ResultResponse.success(postService.updatePost(id, dto, file, user.getId()));
+        } catch (IOException e) {
+            return ResultResponse.fail(StatusCode.INTERNAL_SERVER_ERROR, ResponseMessage.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
