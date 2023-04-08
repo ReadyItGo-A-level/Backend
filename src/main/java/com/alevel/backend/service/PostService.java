@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,6 +26,8 @@ public class PostService {
     private final UserService userService;
     private final LikePostRepository likePostRepository;
     private final ScrapPostRepository scrapPostRepository;
+
+    private final FileService fileService;
 
     @Transactional
     public MyPagePostResponseDto findByUserId(Long id){
@@ -104,19 +108,24 @@ public class PostService {
                 .stream().map(PostDetailResponseDto::new).collect(Collectors.toList());
     }
 
-    public Long savePost(PostRequestDto dto, User user) {
-        return postRepository.save(dto.toEntity(user)).getId();
+    public Long savePost(PostRequestDto dto, MultipartFile file, User user) throws IOException {
+        String filePath = fileService.uploadFile(file);
+        return postRepository.save(dto.toEntity(user, filePath)).getId();
     }
 
-    public Long updatePost(Long postId, PostRequestDto dto, Long userid) {
+    public Long updatePost(Long postId, PostRequestDto dto, MultipartFile file, Long userid) throws IOException {
         Post post = findById(postId);
         if (!post.getUser().getId().equals(userid)) {
             throw new UnauthorizedAccessException();
         }
 
+        if (!file.isEmpty()) {
+            String filePath = fileService.uploadFile(file);
+            post.setImage(filePath);
+        }
+
         post.setTitle(dto.getTitle());
         post.setContent(dto.getContent());
-        post.setImage(dto.getImage());
         post.setAlcoholName(dto.getAlcoholName());
         post.setAlcoholType(dto.getAlcoholType());
         post.setFlavor(dto.getFlavor());
