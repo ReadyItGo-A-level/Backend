@@ -12,11 +12,17 @@ import java.util.UUID;
 @Service
 public class FileService {
 
+    @Value("${image.dir}")
+    private String imageDir;
+
     @Value("${file.dir}")
     private String fileDir;
 
     public String getFullFilePath(String filename) {
         return fileDir + filename;
+    }
+    public String getImageFilePath(String filename) {
+        return imageDir + filename;
     }
 
     public String uploadFile(MultipartFile multipartFile) throws IOException {
@@ -26,15 +32,11 @@ public class FileService {
 
         String originalFilename = multipartFile.getOriginalFilename();
         String uploadFilename = createFileName(originalFilename);
-
-        log.info("originalFilename={}", originalFilename);
-        log.info("uploadFilename={}", uploadFilename);
-
         multipartFile.transferTo(new java.io.File(getFullFilePath(uploadFilename)));
 
-        log.info("fullFilePath={}", getFullFilePath(uploadFilename));
-
-        return getFullFilePath(uploadFilename);
+        log.info("getFullFilePath={}", getFullFilePath(uploadFilename));
+        log.info("getResourceFilePath={}", getImageFilePath(uploadFilename));
+        return getImageFilePath(uploadFilename);
     }
 
     private static String createFileName(String originalFilename) {
