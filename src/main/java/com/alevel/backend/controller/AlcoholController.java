@@ -49,9 +49,10 @@ public class AlcoholController {
     @GetMapping(value = "/alcohols")
     public ResultResponse getAlcohol(
             String type, String category,
-            @PageableDefault(size = 6, sort = "hit", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(size = 6, sort = "hit", direction = Sort.Direction.DESC) Pageable pageable,
+            @AuthenticationPrincipal CustomUserDetails user) {
         try {
-            Page<AlcoholResponseDto> alcohol = alcoholService.findAllAlcohol(type, category, pageable);
+            Page<AlcoholResponseDto> alcohol = alcoholService.findAllAlcohol(type, category, pageable, user.getId());
             Map<String, Object> data = new HashMap<>();
             data.put("alcohol", alcohol.getContent());
             data.put("total", alcohol.getTotalElements());

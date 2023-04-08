@@ -1,5 +1,6 @@
 package com.alevel.backend.domain.alcohol;
 
+import com.alevel.backend.domain.scrapalcohol.QScrapAlcohol;
 import com.alevel.backend.dto.AlcoholResponseDto;
 import com.alevel.backend.dto.RecommendAlcoholDto;
 import com.querydsl.core.types.Order;
@@ -27,14 +28,18 @@ public class AlcoholRepositoryCustomImpl implements AlcoholRepositoryCustom {
     }
 
     QAlcohol alcohol = QAlcohol.alcohol;
+    QScrapAlcohol scrapAlcohol = QScrapAlcohol.scrapAlcohol;
 
     @Override
-    public Page<AlcoholResponseDto> findAllAlcohol(String type, String category, Pageable pageable) {
+    public Page<AlcoholResponseDto> findAllAlcohol(String type, String category, Pageable pageable, Long userId) {
 
         JPAQuery<AlcoholResponseDto> query = queryFactory
                 .select(Projections.constructor(AlcoholResponseDto.class,
-                        alcohol.id, alcohol.name, alcohol.volume, alcohol.size, alcohol.price, alcohol.image))
+                        alcohol.id, alcohol.name, alcohol.volume, alcohol.size, alcohol.price, alcohol.image,
+                        scrapAlcohol.id.isNotNull()))
                 .from(alcohol)
+                .leftJoin(scrapAlcohol)
+                .on(alcohol.id.eq(scrapAlcohol.alcohol.id)).on(scrapAlcohol.user.id.eq(userId))
                 .where(eqType(type),
                         eqCategory(category))
                 .offset(pageable.getOffset()) // 페이지 번호

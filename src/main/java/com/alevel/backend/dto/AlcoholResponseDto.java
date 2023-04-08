@@ -11,13 +11,16 @@ public class AlcoholResponseDto {
     private final Integer price;
     private final String image;
 
-    public AlcoholResponseDto(Long id, String name, String volume, String size, Integer price, String image) {
+    private final boolean isScraped;
+
+    public AlcoholResponseDto(Long id, String name, String volume, String size, Integer price, String image, boolean isScraped) {
         this.id = id;
         this.name = name;
         this.volume = volume;
         this.size = size;
         this.price = price;
         this.image = image;
+        this.isScraped = isScraped;
     }
 
 }
