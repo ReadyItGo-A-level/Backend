@@ -44,7 +44,7 @@ public class PreferenceService {
     }
 
     public Map<String, Object> findRecommendationAlcohol (Long userid) {
-        Map<String, Object> result = null;
+        Map<String, Object> result = new HashMap<>();
         Preference preference = preferenceRepository.findByUserId(userid);
         if (preference != null) {
             List<Long> IdArray = Arrays.stream(preference.getRecommendation().replaceAll(" ", "").split(",")).collect(Collectors.toList())
