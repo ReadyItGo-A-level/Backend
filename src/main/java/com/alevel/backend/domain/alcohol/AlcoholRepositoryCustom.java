@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface AlcoholRepositoryCustom {
 
-    Page<AlcoholResponseDto> findAllAlcohol(String type, String category, Pageable pageable);
+    Page<AlcoholResponseDto> findAllAlcohol(String type, String category, Pageable pageable, Long userId);
 
     List<RecommendAlcoholDto> findRecommendsById(List<Long> idArray);
 

@@ -35,6 +35,9 @@ public class PreferenceController {
             @RequestBody PreferenceRequestDto preference,
             @AuthenticationPrincipal CustomUserDetails user
     ) {
+        if (preference.getVolume() < 1 || preference.getVolume() > 5 || preference.getSugar() < 1 | preference.getSugar() > 5)
+            return ResultResponse.fail(StatusCode.BAD_REQUEST, ResponseMessage.BAD_REQUEST_INPUT_RANGE);
+
         try {
             String recommendation = preferenceService.getRecommendationId(preference);
             preferenceService.insert(

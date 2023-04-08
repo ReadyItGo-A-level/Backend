@@ -33,18 +33,54 @@ public class PreferenceService {
     public String getRecommendationId(PreferenceRequestDto preference) {
 
         String[] typeArray = preference.getType().split(",");
-        Integer volume = preference.getVolume();
-        Integer sugar = preference.getSugar();
         String flavor = preference.getFlavor();
         Integer minPrice = Integer.parseInt(preference.getPrice().split(",")[0]);
         Integer maxPrice = Integer.parseInt(preference.getPrice().split(",")[1]);
 
-        String resultList = alcoholRepository.findRecommend(typeArray, volume, sugar, flavor, minPrice, maxPrice).toString();
-        return resultList.substring(1).substring(0, resultList.length() -2);
+        Integer minVolume = 0, maxVolume = 0;
+        switch (preference.getVolume()) {
+            case 1:
+                minVolume = 0;
+                maxVolume = 5;
+            case 2:
+                minVolume = 5;
+                maxVolume = 10;
+            case 3:
+                minVolume = 10;
+                maxVolume = 15;
+            case 4:
+                minVolume = 15;
+                maxVolume = 18;
+            case 5:
+                minVolume = 18;
+                maxVolume = 40;
+        }
+
+        Integer minSugar = 0, maxSugar = 0;
+        switch (preference.getSugar()) {
+            case 1:
+                minSugar = 1;
+                maxSugar = 1;
+            case 2:
+                minSugar = 1;
+                maxSugar = 3;
+            case 3:
+                minSugar = 3;
+                maxSugar = 3;
+            case 4:
+                minSugar = 3;
+                maxSugar = 5;
+            case 5:
+                minSugar = 5;
+                maxSugar = 5;
+        }
+
+        String resultList = alcoholRepository.findRecommend(typeArray, minVolume, maxVolume, minSugar, maxSugar, flavor, minPrice, maxPrice).toString();
+        return resultList.substring(1).substring(0, resultList.length() - 2);
     }
 
     public Map<String, Object> findRecommendationAlcohol (Long userid) {
-        Map<String, Object> result = null;
+        Map<String, Object> result = new HashMap<>();
         Preference preference = preferenceRepository.findByUserId(userid);
         if (preference != null) {
             List<Long> IdArray = Arrays.stream(preference.getRecommendation().replaceAll(" ", "").split(",")).collect(Collectors.toList())

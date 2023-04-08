@@ -27,8 +27,8 @@ public class AlcoholService {
         this.userRepository = userRepository;
     }
 
-    public Page<AlcoholResponseDto> findAllAlcohol(String type, String category, Pageable pageable) {
-        return alcoholRepository.findAllAlcohol(type, category, pageable);
+    public Page<AlcoholResponseDto> findAllAlcohol(String type, String category, Pageable pageable, Long userId) {
+        return alcoholRepository.findAllAlcohol(type, category, pageable, userId);
     }
 
     public AlcoholDetailResponseDto findAlcoholDetail(Long id) {
