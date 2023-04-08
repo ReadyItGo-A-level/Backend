@@ -10,11 +10,11 @@ import java.util.List;
 @Repository
 public interface AlcoholRepository extends JpaRepository<Alcohol, Long>, AlcoholRepositoryCustom {
 
-    @Query(value = "select t.id " +
+    @Query(value = "select distinct t.id " +
                     "from ( " +
-                        "select * from alcohol a where a.volume = :volume " +
+                        "select * from alcohol a where a.volume >= :minVolume and a.volume <= :maxVolume " +
                         "union all " +
-                        "select * from alcohol a where a.sugar = :sugar " +
+                        "select * from alcohol a where  a.sugar <= :minSugar and a.sugar <= :maxSugar " +
                         "union all " +
                         "select * from alcohol a where a.flavor like concat('%', :flavor, '%') " +
                         "union all " +
@@ -26,8 +26,10 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long>, Alcohol
             , nativeQuery = true
     )
     List<Long> findRecommend(@Param("typeArray") String[] typeArray,
-                                  @Param("volume") Integer volume,
-                                  @Param("sugar") Integer sugar,
+                                  @Param("minVolume") Integer minVolume,
+                                  @Param("maxVolume") Integer maxVolume,
+                                  @Param("minSugar") Integer minSugar,
+                                  @Param("maxSugar") Integer maxSugar,
                                   @Param("flavor") String flavor,
                                   @Param("minPrice") Integer minPrice, @Param("maxPrice") Integer maxPrice);
 
