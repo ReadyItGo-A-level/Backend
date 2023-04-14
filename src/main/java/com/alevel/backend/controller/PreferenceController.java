@@ -6,6 +6,7 @@ import com.alevel.backend.domain.response.ResponseMessage;
 import com.alevel.backend.domain.response.ResultResponse;
 import com.alevel.backend.domain.response.StatusCode;
 import com.alevel.backend.dto.PreferenceRequestDto;
+import com.alevel.backend.dto.RecommendAlcoholDto;
 import com.alevel.backend.jwt.CustomUserDetails;
 import com.alevel.backend.service.PreferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,7 @@ public class PreferenceController {
     @GetMapping(value = "/recommendations/preference")
     public ResultResponse getRecommendationPage(String type, @AuthenticationPrincipal CustomUserDetails user) {
         try {
-            Map<String, Object> alcohol = preferenceService.findRecommendationAlcohol(user.getId());
+            Map<String, List<RecommendAlcoholDto>> alcohol = preferenceService.findRecommendationAlcohol(user.getId());
             List<PostResponseDto> post = preferenceService.findRecommendationPost(user.getId());
             List<PostResponseDto> topPost = preferenceService.findRecommendationTopPost();
 

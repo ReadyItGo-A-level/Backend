@@ -79,8 +79,8 @@ public class PreferenceService {
         return resultList.substring(1).substring(0, resultList.length() - 2);
     }
 
-    public Map<String, Object> findRecommendationAlcohol (Long userid) {
-        Map<String, Object> result = new HashMap<>();
+    public Map<String, List<RecommendAlcoholDto>> findRecommendationAlcohol (Long userid) {
+        Map<String, List<RecommendAlcoholDto>> result = new HashMap<>();
         Preference preference = preferenceRepository.findByUserId(userid);
         if (preference != null) {
             List<Long> IdArray = Arrays.stream(preference.getRecommendation().replaceAll(" ", "").split(",")).collect(Collectors.toList())
@@ -88,7 +88,9 @@ public class PreferenceService {
             List<String> TypeList = alcoholRepository.findDistinctType();
 
             List<RecommendAlcoholDto> allAlcohols = alcoholRepository.findRecommendsById(IdArray);
+            if (allAlcohols.size() > 5) allAlcohols = allAlcohols.subList(0, 5);
             result.put("alcohols", allAlcohols);
+
             for (String type : TypeList) {
                 List<RecommendAlcoholDto> typeAlcohol = alcoholRepository.findRecommendsByIdAndType(IdArray, type);
                 switch (type) {
@@ -106,17 +108,19 @@ public class PreferenceService {
                         break;
                 }
                 result.put(type, typeAlcohol);
+                if (result.get(type).size() > 5) result.put(type, result.get(type).subList(0, 5));
             }
         }
         return result;
     }
 
     public List<PostResponseDto> findRecommendationPost (Long userid) {
-        List<PostResponseDto> result = null;
+        List<PostResponseDto> result = new ArrayList<>();
         String recommendation = preferenceRepository.findRecommendationByUserid(userid);
         if (recommendation != null) {
             String[] IdArray = recommendation.replaceAll(" ", "").split(",");
-            String alcoholName;
+            String alcoholName = "";
+
             for (String id : IdArray) {
                 alcoholName = alcoholRepository.findAllById(Long.parseLong(id)).getName();
                 List<PostResponseDto> dto = postService.findByAlcoholName(alcoholName);
@@ -126,7 +130,8 @@ public class PreferenceService {
                 }
             }
         }
-        return result;
+        if (result.size() > 5) return result.subList(0, 5);
+        else return result;
     }
 
     public List<PostResponseDto> findRecommendationTopPost () {

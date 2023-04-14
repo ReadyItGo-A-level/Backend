@@ -76,16 +76,16 @@ public class PostService {
             return null;
         }
 
-        List<PostResponseDto> dto = new ArrayList();
+        List<PostResponseDto> dto = new ArrayList<>();
 
-        for (Post value : post) {
-            Long id = value.getId();
-            String title = value.getTitle();
-            String content = value.getContent();
-            String image = value.getImage();
-            Integer commentCount = value.getCommentCount();
-            Integer scrapCount = value.getScrapCount();
-            Integer likeCount = value.getLikeCount();
+        for (int i=0; i<5; i++) {
+            Long id = post.get(i).getId();
+            String title = post.get(i).getTitle();
+            String content = post.get(i).getContent();
+            String image = post.get(i).getImage();
+            Integer commentCount = post.get(i).getCommentCount();
+            Integer scrapCount = post.get(i).getScrapCount();
+            Integer likeCount = post.get(i).getLikeCount();
 
             dto.add(new PostResponseDto(id, title, content, image, commentCount, scrapCount, likeCount));
         }
@@ -95,7 +95,7 @@ public class PostService {
 
     public PostCommentsDetailResponseDto findPostAndCommentsById(Long id, Long userid) {
         Post post = postRepository.findByIdAndStatusTrue(id).orElseThrow(
-                () -> new InvalidatePostException()
+                InvalidatePostException::new
         );
         List<CommentResponseDto> comments = commentService.findCommentseByPost(post);
         Boolean like = CheckLike(userid, id);
@@ -138,7 +138,7 @@ public class PostService {
 
     public Long deletePostById(Long id) {
         Post post = postRepository.findByIdAndStatusTrue(id).orElseThrow(
-                () -> new InvalidatePostException()
+                InvalidatePostException::new
         );
         post.setStatus(false);
         return postRepository.save(post).getId();
@@ -158,6 +158,6 @@ public class PostService {
 
     public Post findById(Long id) {
         return postRepository.findById(id)
-                .orElseThrow(() -> new InvalidatePostException());
+                .orElseThrow(InvalidatePostException::new);
     }
 }
