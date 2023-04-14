@@ -98,6 +98,10 @@ public class PostService {
                 InvalidatePostException::new
         );
         List<CommentResponseDto> comments = commentService.findCommentseByPost(post);
+
+        post.setHit(post.getHit() + 1);
+        postRepository.save(post);
+
         Boolean like = CheckLike(userid, id);
         Boolean scrap = CheckScrap(userid, id);
         return new PostCommentsDetailResponseDto(post, like, scrap, comments);

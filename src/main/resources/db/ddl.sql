@@ -42,7 +42,7 @@ CREATE TABLE `post` (
 	`content`	TEXT	NOT NULL	COMMENT '내용',
 	`image`	VARCHAR(100)	NULL,
 	`hit`	bigint	COMMENT '조회수',
-	`alcohol_name`	VARCHAR(20)	NULL COMMENT '술이름',
+	`alcohol_name`	VARCHAR(50)	NULL COMMENT '술이름',
 	`alcohol_type`	VARCHAR(10)	NULL COMMENT '주종',
 	`flavor`	VARCHAR(20)	NULL COMMENT '맛',
 	`volume`	VARCHAR(5) NULL COMMENT '도수',

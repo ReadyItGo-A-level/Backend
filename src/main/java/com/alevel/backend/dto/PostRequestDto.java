@@ -23,6 +23,8 @@ public class PostRequestDto {
     private Long body;
     private Long sugar;
 
+    private Long hit;
+
     @Builder
     public PostRequestDto(
             String title,
@@ -59,6 +61,7 @@ public class PostRequestDto {
                 .price(price)
                 .body(body)
                 .sugar(sugar)
+                .hit(0L)
                 .build();
     }
 }
