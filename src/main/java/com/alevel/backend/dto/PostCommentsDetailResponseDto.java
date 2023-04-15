@@ -21,7 +21,7 @@ public class PostCommentsDetailResponseDto {
     private final Integer likeCount;
     private final String alcoholName;
     private final String flavor;
-    private final BigDecimal volume;
+    private final String volume;
     private final String price;
     private final Long body;
     private final Long sugar;

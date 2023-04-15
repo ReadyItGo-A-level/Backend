@@ -46,8 +46,8 @@ public class Post extends BaseTimeEntity {
     @Column(length = 20)
     private String flavor;
 
-    @Column(precision = 5, scale = 2)
-    private BigDecimal volume;
+    @Column(length = 10)
+    private String volume;
 
     @Column(length = 20)
     private String price;
@@ -75,7 +75,7 @@ public class Post extends BaseTimeEntity {
 
     @Builder
     public Post(User user, String title, String content, String image, Long hit, String alcoholName, String alcoholType,
-                String flavor, BigDecimal volume, String price, Long body, Long sugar, int commentCount) {
+                String flavor, String volume, String price, Long body, Long sugar, int commentCount) {
         this.user = user;
         this.title = title;
         this.content = content;

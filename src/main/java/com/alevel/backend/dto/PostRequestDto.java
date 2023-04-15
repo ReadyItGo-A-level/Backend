@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Getter
 @NoArgsConstructor
 public class PostRequestDto {
@@ -18,7 +16,7 @@ public class PostRequestDto {
     private String alcoholType;
 
     private String flavor;
-    private BigDecimal volume;
+    private String volume;
     private String price;
     private Long body;
     private Long sugar;
@@ -32,7 +30,7 @@ public class PostRequestDto {
             String alcoholName,
             String alcoholType,
             String flavor,
-            BigDecimal volume,
+            String volume,
             String price,
             Long body,
             Long sugar
