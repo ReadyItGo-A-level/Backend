@@ -3,6 +3,7 @@ package com.alevel.backend.service;
 import com.alevel.backend.domain.likepost.LikePostRepository;
 import com.alevel.backend.domain.post.Post;
 import com.alevel.backend.domain.post.PostRepository;
+import com.alevel.backend.domain.preference.Preference;
 import com.alevel.backend.domain.scrappost.ScrapPostRepository;
 import com.alevel.backend.domain.user.User;
 import com.alevel.backend.dto.*;
@@ -36,6 +37,26 @@ public class PostService {
         return new MyPagePostResponseDto(entity);
     }
 
+    public List<PostResponseDto> findByPreference(Preference preference) {
+        List<Post> post = postRepository.findByVolumeOrSugar(preference.getVolume(), preference.getSugar());
+
+        if (post.isEmpty()) return null;
+
+        List<PostResponseDto> dto =new ArrayList<>();
+        for (Post value : post) {
+            Long id = value.getId();
+            String title = value.getTitle();
+            String content = value.getContent();
+            String image = value.getImage();
+            Integer commentCount = value.getCommentCount();
+            Integer scrapCount = value.getScrapCount();
+            Integer likeCount = value.getLikeCount();
+
+            dto.add(new PostResponseDto(id, title, content, image, commentCount, scrapCount, likeCount));
+        }
+        return dto;
+    }
+
     public List<PostResponseDto> findByAlcoholName(String name){
         List<Post> post = postRepository.findByAlcoholNameContaining(name);
 
@@ -44,7 +65,7 @@ public class PostService {
             return null;
         }
 
-        List<PostResponseDto> dto = new ArrayList();
+        List<PostResponseDto> dto = new ArrayList<>();
 
         for (Post value : post) {
             Long id = value.getId();

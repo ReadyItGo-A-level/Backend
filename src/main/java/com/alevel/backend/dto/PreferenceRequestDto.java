@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PreferenceRequestDto {
     private String type;
-    private int volume;
-    private int sugar;
+    private Long volume;
+    private Long sugar;
     private String flavor;
     private String price;
 }

@@ -26,10 +26,10 @@ public interface AlcoholRepository extends JpaRepository<Alcohol, Long>, Alcohol
             , nativeQuery = true
     )
     List<Long> findRecommend(@Param("typeArray") String[] typeArray,
-                                  @Param("minVolume") Integer minVolume,
-                                  @Param("maxVolume") Integer maxVolume,
-                                  @Param("minSugar") Integer minSugar,
-                                  @Param("maxSugar") Integer maxSugar,
+                                  @Param("minVolume") Long minVolume,
+                                  @Param("maxVolume") Long maxVolume,
+                                  @Param("minSugar") Long minSugar,
+                                  @Param("maxSugar") Long maxSugar,
                                   @Param("flavor") String flavor,
                                   @Param("minPrice") Integer minPrice, @Param("maxPrice") Integer maxPrice);
 

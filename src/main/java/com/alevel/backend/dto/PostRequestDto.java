@@ -16,7 +16,7 @@ public class PostRequestDto {
     private String alcoholType;
 
     private String flavor;
-    private String volume;
+    private Long volume;
     private String price;
     private Long body;
     private Long sugar;
@@ -30,7 +30,7 @@ public class PostRequestDto {
             String alcoholName,
             String alcoholType,
             String flavor,
-            String volume,
+            Long volume,
             String price,
             Long body,
             Long sugar

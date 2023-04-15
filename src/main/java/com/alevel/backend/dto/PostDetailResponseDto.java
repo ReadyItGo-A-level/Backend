@@ -3,7 +3,6 @@ package com.alevel.backend.dto;
 import com.alevel.backend.domain.post.Post;
 import lombok.Getter;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -21,7 +20,7 @@ public class PostDetailResponseDto {
     private final String alcoholName;
     private final String alcoholType;
     private final String flavor;
-    private final String volume;
+    private final Long volume;
     private final String price;
     private final Long body;
     private final Long sugar;

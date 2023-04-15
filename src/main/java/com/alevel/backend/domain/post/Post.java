@@ -8,7 +8,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Getter
 @NoArgsConstructor
@@ -46,8 +45,7 @@ public class Post extends BaseTimeEntity {
     @Column(length = 20)
     private String flavor;
 
-    @Column(length = 10)
-    private String volume;
+    private Long volume;
 
     @Column(length = 20)
     private String price;
@@ -75,7 +73,7 @@ public class Post extends BaseTimeEntity {
 
     @Builder
     public Post(User user, String title, String content, String image, Long hit, String alcoholName, String alcoholType,
-                String flavor, String volume, String price, Long body, Long sugar, int commentCount) {
+                String flavor, Long volume, String price, Long body, Long sugar, int commentCount) {
         this.user = user;
         this.title = title;
         this.content = content;

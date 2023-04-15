@@ -37,10 +37,9 @@ public class PreferenceService {
         Integer minPrice = Integer.parseInt(preference.getPrice().split(",")[0]);
         Integer maxPrice = Integer.parseInt(preference.getPrice().split(",")[1]);
 
-        Integer minVolume = 0, maxVolume = 0;
-        switch (preference.getVolume()) {
+        long minVolume = 0L, maxVolume = 0L;
+        switch (preference.getVolume().intValue()) {
             case 1:
-                minVolume = 0;
                 maxVolume = 5;
             case 2:
                 minVolume = 5;
@@ -56,8 +55,8 @@ public class PreferenceService {
                 maxVolume = 40;
         }
 
-        Integer minSugar = 0, maxSugar = 0;
-        switch (preference.getSugar()) {
+        long minSugar = 0L, maxSugar = 0L;
+        switch (preference.getSugar().intValue()) {
             case 1:
                 minSugar = 1;
                 maxSugar = 1;
@@ -115,21 +114,9 @@ public class PreferenceService {
     }
 
     public List<PostResponseDto> findRecommendationPost (Long userid) {
-        List<PostResponseDto> result = new ArrayList<>();
-        String recommendation = preferenceRepository.findRecommendationByUserid(userid);
-        if (recommendation != null) {
-            String[] IdArray = recommendation.replaceAll(" ", "").split(",");
-            String alcoholName = "";
+        Preference preference = preferenceRepository.findByUserId(userid);
+        List<PostResponseDto> result = postService.findByPreference(preference);
 
-            for (String id : IdArray) {
-                alcoholName = alcoholRepository.findAllById(Long.parseLong(id)).getName();
-                List<PostResponseDto> dto = postService.findByAlcoholName(alcoholName);
-
-                if (dto != null) {
-                    result.add(dto.get(0));
-                }
-            }
-        }
         if (result.size() > 5) return result.subList(0, 5);
         else return result;
     }

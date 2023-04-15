@@ -18,9 +18,9 @@ public class Preference {
 
     private String type;
 
-    private int volume;
+    private Long volume;
 
-    private int sugar;
+    private Long sugar;
 
     private String flavor;
 
@@ -29,7 +29,7 @@ public class Preference {
     private String recommendation;
     
     @Builder
-    public Preference(Long user_id, String type, int volume, int sugar, String flavor, String price, String recommendation) {
+    public Preference(Long user_id, String type, Long volume, Long sugar, String flavor, String price, String recommendation) {
         this.userid=user_id;
         this.type=type;
         this.volume=volume;
