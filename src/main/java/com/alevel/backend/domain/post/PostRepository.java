@@ -18,7 +18,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
 
     Optional<Post> findByIdAndStatusTrue(Long id);
 
-    List<Post> findByStatusTrue();
+    List<Post> findByStatusTrueOrderByIdDesc();
 
     List<Post> findByVolumeOrSugar(Long volume, Long sugar);
 }

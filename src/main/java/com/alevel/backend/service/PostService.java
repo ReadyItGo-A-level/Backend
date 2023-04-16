@@ -129,7 +129,7 @@ public class PostService {
     }
 
     public List<PostDetailResponseDto> findPosts() {
-        return postRepository.findByStatusTrue()
+        return postRepository.findByStatusTrueOrderByIdDesc()
                 .stream().map(PostDetailResponseDto::new).collect(Collectors.toList());
     }
 
